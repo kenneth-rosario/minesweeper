@@ -19,6 +19,7 @@ public class MyMouseAdapter extends MouseAdapter {
 						return;
 					}
 				}
+				// Gets Position of Where user clicks
 				JFrame myFrame = (JFrame) c;
 				MyPanel myPanel = (MyPanel) myFrame.getContentPane().getComponent(0);
 				Insets myInsets = myFrame.getInsets();
@@ -29,8 +30,10 @@ public class MyMouseAdapter extends MouseAdapter {
 				int y = e.getY();
 				myPanel.x = x;
 				myPanel.y = y;
+				// Records the position and saves it in a variable;
 				myPanel.mouseDownGridX = myPanel.getGridX(x, y);
 				myPanel.mouseDownGridY = myPanel.getGridY(x, y);
+				System.out.println("MouseDownGridX: "+ myPanel.mouseDownGridX + " MouseDownGridY"+ myPanel.mouseDownGridY );
 				myPanel.repaint();
 				break;
 			case 3:		//Right mouse button
@@ -83,16 +86,35 @@ public class MyMouseAdapter extends MouseAdapter {
 								Color newColor = null;
 								switch (generator.nextInt(5)) {
 									case 0:
-										newColor = Color.YELLOW;
+										if(myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY].equals(Color.YELLOW)) {
+											newColor = Color.GREEN;
+										}
+										else {
+											newColor = Color.YELLOW;
+										}
 										break;
 									case 1:
-										newColor = Color.MAGENTA;
+										if(myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY].equals(Color.MAGENTA)) {
+											newColor = Color.RED;
+										}else {
+											newColor = Color.MAGENTA;
+										}
 										break;
 									case 2:
-										newColor = Color.BLACK;
+										if(myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY].equals(Color.BLACK)) {
+											newColor = Color.PINK;
+										}else {
+											newColor = Color.BLACK;
+										}
 										break;
 									case 3:
-										newColor = new Color(0x964B00);   //Brown (from http://simple.wikipedia.org/wiki/List_of_colors)
+										
+										newColor = new Color(0x964B00);
+										if(myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY].equals(newColor)){
+											newColor = Color.ORANGE;
+										}else
+											//newColor = new Color(0x964B00);   //Brown (from http://simple.wikipedia.org/wiki/List_of_colors)
+										
 										break;
 									case 4:
 										newColor = new Color(0xB57EDC);   //Lavender (from http://simple.wikipedia.org/wiki/List_of_colors)
