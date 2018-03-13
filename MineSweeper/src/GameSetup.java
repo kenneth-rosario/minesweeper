@@ -63,7 +63,7 @@ public class GameSetup {
 	
 	
 	
-	public boolean surroundingHasMine(int positionX, int positionY) {
+	public boolean hasSurroundingMine(int positionX, int positionY) {
 		//Check possible positions where element might have a mine
 		int [][] newOrderedPair = {{positionX-1, positionY}, {positionX+1, positionY}, 
 				{positionX,positionY-1}, {positionX-1,positionY-1}, {positionX+1, positionY-1}, {positionX,positionY+1},
@@ -100,6 +100,12 @@ public class GameSetup {
 		for(int i =0; i< minesLocations.length; i++) {
 			colorArray[minesLocations[i][0]][minesLocations[i][1]] = Color.BLACK;
 		}
+	}
+	
+	public void revealAdjacent(int x, int y) {
+		
+		
+		
 	}
 	
 	public void printMines() {

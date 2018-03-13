@@ -85,17 +85,20 @@ public class MyPanel extends JPanel {
 	// It is partially implemented since the verify hasn't been discussed in class
 	// Verify that the coordinates in the parameters are valid.
 	// Also verifies if there are any mines around the x,y coordinate
-	public void revealAdjacent(int x, int y){
+	public void revealAdjacent(int x, int y, GameSetup gameOptions){
 		if((x<0) || (y<0) || (x>=9) || (y>=9)){return;}
-
-		else {
-			colorArray[x][y] = Color.GRAY;
-			revealAdjacent(x-1, y);
-			revealAdjacent(x+1, y);
-			revealAdjacent(x, y-1);
-			revealAdjacent(x, y+1);
+		else if(gameOptions.hasSurroundingMine(x, y)) {
+			colorArray[x][y] = Color.GREEN;
 		}
-		
+		else {
+			System.out.println("Inside Color.Gray");
+			colorArray[x][y] = Color.GRAY;
+			revealAdjacent(x-1, y, gameOptions);
+			revealAdjacent(x+1, y, gameOptions);
+			revealAdjacent(x, y-1, gameOptions);
+			revealAdjacent(x, y+1, gameOptions);
+		}
+		repaint();
 		System.out.println("Test");
 
 	}

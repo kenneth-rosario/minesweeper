@@ -88,7 +88,7 @@ public class MyMouseAdapter extends MouseAdapter {
 								if(gameOptions.youLose(myPanel.mouseDownGridX, myPanel.mouseDownGridY)) {
 									gameOptions.revealAll(myPanel.colorArray);
 								}else {
-									//
+									myPanel.revealAdjacent(myPanel.mouseDownGridX, myPanel.mouseDownGridY, gameOptions);
 								}
 //								myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = newColor;
 								myPanel.repaint();
