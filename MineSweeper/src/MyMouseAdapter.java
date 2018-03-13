@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 
 public class MyMouseAdapter extends MouseAdapter {
 	private Random generator = new Random();
+	private GameSetup gameOptions = new GameSetup(8, 9, 9);
 	public void mousePressed(MouseEvent e) {
 		switch (e.getButton()) {
 			case 1:		//Left mouse button
@@ -84,43 +85,12 @@ public class MyMouseAdapter extends MouseAdapter {
 							} else {
 								//On the grid other than on the left column and on the top row:
 								Color newColor = null;
-								switch (generator.nextInt(5)) {
-									case 0:
-										if(myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY].equals(Color.YELLOW)) {
-											newColor = Color.GREEN;
-										}
-										else {
-											newColor = Color.YELLOW;
-										}
-										break;
-									case 1:
-										if(myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY].equals(Color.MAGENTA)) {
-											newColor = Color.RED;
-										}else {
-											newColor = Color.MAGENTA;
-										}
-										break;
-									case 2:
-										if(myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY].equals(Color.BLACK)) {
-											newColor = Color.PINK;
-										}else {
-											newColor = Color.BLACK;
-										}
-										break;
-									case 3:
-										
-										newColor = new Color(0x964B00);
-										if(myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY].equals(newColor)){
-											newColor = Color.ORANGE;
-										}else
-											//newColor = new Color(0x964B00);   //Brown (from http://simple.wikipedia.org/wiki/List_of_colors)
-										
-										break;
-									case 4:
-										newColor = new Color(0xB57EDC);   //Lavender (from http://simple.wikipedia.org/wiki/List_of_colors)
-										break;
+								if(gameOptions.youLose(myPanel.mouseDownGridX, myPanel.mouseDownGridY)) {
+									gameOptions.revealAll(myPanel.colorArray);
+								}else {
+									//
 								}
-								myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = newColor;
+//								myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = newColor;
 								myPanel.repaint();
 							}
 						}
