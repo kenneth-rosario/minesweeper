@@ -29,7 +29,7 @@ public class GameSetup {
 		
 		// Verify if ordered pair already exist in MinesLocatio
 		for(int i = 0; i < bigArray.length; i++) {
-			System.out.println("Comparing: ("+bigArray[i][0]+", "+bigArray[i][1]+ ")"+ " with: ("+orderedPair[0]+", "+orderedPair[1]+")");
+			//System.out.println("Comparing: ("+bigArray[i][0]+", "+bigArray[i][1]+ ")"+ " with: ("+orderedPair[0]+", "+orderedPair[1]+")");
 			if(orderedPair[0] == bigArray[i][0] && orderedPair[1] == bigArray[i][1]) {
 				return true;
 			}
@@ -102,11 +102,6 @@ public class GameSetup {
 		}
 	}
 	
-	public void revealAdjacent(int x, int y) {
-		
-		
-		
-	}
 	
 	public void printMines() {
 		System.out.println("Mines Locations Are:");
