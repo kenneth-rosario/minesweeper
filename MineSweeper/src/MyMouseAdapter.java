@@ -84,11 +84,11 @@ public class MyMouseAdapter extends MouseAdapter {
 								//On the left column and on the top row... do nothing
 							} else {
 								//On the grid other than on the left column and on the top row:
-								Color newColor = null;
 								if(gameOptions.youLose(myPanel.mouseDownGridX, myPanel.mouseDownGridY)) {
 									gameOptions.revealAll(myPanel.colorArray);
-								}else {
-									//
+								}
+								else {
+									myPanel.revealAdjacent(myPanel.mouseDownGridX, myPanel.mouseDownGridY, gameOptions);
 								}
 //								myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = newColor;
 								myPanel.repaint();

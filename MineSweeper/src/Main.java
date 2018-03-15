@@ -14,7 +14,7 @@ public class Main {
 		myFrame.addMouseListener(myMouseAdapter);
 
 		myFrame.setVisible(true);
-		GameSetup test = new GameSetup(8, 9, 9);
-		test.printMines();
+		//GameSetup test = new GameSetup(8, 9, 9);
+		//test.printMines();
 	}
 }

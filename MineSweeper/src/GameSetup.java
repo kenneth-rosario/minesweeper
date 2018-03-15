@@ -29,7 +29,7 @@ public class GameSetup {
 		
 		// Verify if ordered pair already exist in MinesLocatio
 		for(int i = 0; i < bigArray.length; i++) {
-			System.out.println("Comparing: ("+bigArray[i][0]+", "+bigArray[i][1]+ ")"+ " with: ("+orderedPair[0]+", "+orderedPair[1]+")");
+			//System.out.println("Comparing: ("+bigArray[i][0]+", "+bigArray[i][1]+ ")"+ " with: ("+orderedPair[0]+", "+orderedPair[1]+")");
 			if(orderedPair[0] == bigArray[i][0] && orderedPair[1] == bigArray[i][1]) {
 				return true;
 			}
@@ -63,7 +63,7 @@ public class GameSetup {
 	
 	
 	
-	public boolean surroundingHasMine(int positionX, int positionY) {
+	public boolean hasSurroundingMine(int positionX, int positionY) {
 		//Check possible positions where element might have a mine
 		int [][] newOrderedPair = {{positionX-1, positionY}, {positionX+1, positionY}, 
 				{positionX,positionY-1}, {positionX-1,positionY-1}, {positionX+1, positionY-1}, {positionX,positionY+1},
@@ -101,6 +101,7 @@ public class GameSetup {
 			colorArray[minesLocations[i][0]][minesLocations[i][1]] = Color.BLACK;
 		}
 	}
+	
 	
 	public void printMines() {
 		System.out.println("Mines Locations Are:");
