@@ -26,10 +26,14 @@ public class Main {
 		//GameSetup test = new GameSetup(8, 9, 9);
 		//test.printMines();
 		
+		
 		//adds the menu bar to the game.
+		
+		
 		
 		JMenuBar menubar = new JMenuBar();
 		myFrame.setJMenuBar(menubar);
+		
 		JMenu game = new JMenu("Game");
 		JMenu intel = new JMenu("Intel");
 		JMenu abort = new JMenu("Abort");
@@ -52,6 +56,8 @@ public class Main {
 		
 		abort.add(exit);
 		
+		myFrame.validate();
+		myFrame.repaint();
 		//a class that adds the exit functionality to the "exit" button.
 		
 		class exitaction implements ActionListener{
