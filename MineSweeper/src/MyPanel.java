@@ -116,6 +116,9 @@ public class MyPanel extends JPanel {
 		else if(gameOptions.hasSurroundingMine(x, y)) {
 			colorArray[x][y] = Color.GREEN;
 		}
+		else if(colorArray[x][y].equals(Color.GRAY)) {
+			return;
+		}
 		else {
 				colorArray[x][y] = Color.GRAY;
 				revealAdjacent(x-1, y, gameOptions);
