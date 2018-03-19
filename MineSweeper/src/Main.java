@@ -5,7 +5,7 @@ public class Main {
 		JFrame myFrame = new JFrame("Bienve's Grid");
 		myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		myFrame.setLocation(400, 150);
-		myFrame.setSize(900, 900);
+		myFrame.setSize(1000, 1000);
 
 		MyPanel myPanel = new MyPanel();
 		myFrame.add(myPanel);
