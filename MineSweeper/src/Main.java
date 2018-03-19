@@ -1,5 +1,6 @@
+
+import java.awt.Font;
 import java.awt.MenuBar;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -7,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
+import javafx.scene.paint.Color;
 
 public class Main {
 	public static void main(String[] args) {
@@ -40,12 +43,23 @@ public class Main {
 		
 		
 		menubar.setVisible(true);
+		//sets font for the menus in menubar.
+		Font textfont = new Font("Impact",Font.PLAIN,12);
+		game.setFont(textfont);
+		intel.setFont(textfont);
+		abort.setFont(textfont);
+		
+		
+		 
 		
 		
 		
+		//adds menus to menubar.
 		menubar.add(game);
 		menubar.add(intel);
 		menubar.add(abort);
+		
+		
 		
 		JMenuItem reset = new JMenuItem("Reset");
 		JMenuItem setdifficulty = new JMenuItem("Set Difficulty");
@@ -68,6 +82,10 @@ public class Main {
 			
 		}
 		exit.addActionListener(new exitaction());
+		
+		
+		
 	}
+	
 }
 	
