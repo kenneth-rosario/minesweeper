@@ -1,14 +1,20 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class MyPanel extends JPanel {
 	private static final long serialVersionUID = 3426940946811133635L;
-	private static final int GRID_X = 25;
-	private static final int GRID_Y = 25;
+    private static final int GRID_X = 100;
+	private static final int GRID_Y = 100;
 	private static final int INNER_CELL_SIZE = 70;
 	private static final int TOTAL_COLUMNS = 10;
 	private static final int TOTAL_ROWS = 11;   //Last row has only one cell
@@ -27,14 +33,14 @@ public class MyPanel extends JPanel {
 		if (TOTAL_ROWS + (new Random()).nextInt(1) < 3) {	//Use of "random" to prevent unwanted Eclipse warning
 			throw new RuntimeException("TOTAL_ROWS must be at least 3!");
 		}
-		for (int x = 0; x < TOTAL_COLUMNS; x++) {   //Top row
-			colorArray[x][0] = Color.LIGHT_GRAY;
-		}
-		for (int y = 0; y < TOTAL_ROWS; y++) {   //Left column
-			colorArray[0][y] = Color.LIGHT_GRAY;
-		}
-		for (int x = 1; x < TOTAL_COLUMNS; x++) {   //The rest of the grid
-			for (int y = 1; y < TOTAL_ROWS; y++) {
+//		for (int x = 0; x < TOTAL_COLUMNS; x++) {   //Top row
+//			colorArray[x][0] = Color.LIGHT_GRAY;
+//		}
+//		for (int y = 0; y < TOTAL_ROWS; y++) {   //Left column
+//			colorArray[0][y] = Color.LIGHT_GRAY;
+//		}
+		for (int x = 0; x < TOTAL_COLUMNS; x++) {   //The rest of the grid
+			for (int y = 0; y < TOTAL_ROWS; y++) {
 				colorArray[x][y] = Color.WHITE;
 			}
 		}
@@ -53,12 +59,12 @@ public class MyPanel extends JPanel {
 
 		//Paint the background
 		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(x1, y1, width + 1, height + 1);
+		//g.fillRect(x1, y1, width + 1, height + 1);
 
 		//Draw the grid minus the bottom row (which has only one cell)
 		//By default, the grid will be 10x10 (see above: TOTAL_COLUMNS and TOTAL_ROWS) 
 		g.setColor(Color.BLACK);
-		for (int y = 0; y <= TOTAL_ROWS - 1; y++) {
+		for (int y = 0; y <= TOTAL_ROWS-1; y++) {
 			g.drawLine(x1 + GRID_X, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)), x1 + GRID_X + ((INNER_CELL_SIZE + 1) * TOTAL_COLUMNS), y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)));
 		}
 		for (int x = 0; x <= TOTAL_COLUMNS; x++) {
@@ -67,15 +73,30 @@ public class MyPanel extends JPanel {
 
 		//Draw an additional cell at the bottom left
 		g.drawRect(x1 + GRID_X, y1 + GRID_Y + ((INNER_CELL_SIZE + 1) * (TOTAL_ROWS - 1)), INNER_CELL_SIZE + 1, INNER_CELL_SIZE + 1);
-
+		URL url = getClass().getResource("mine-picture.jpg");
+		BufferedImage image = new BufferedImage(INNER_CELL_SIZE, INNER_CELL_SIZE , BufferedImage.SCALE_SMOOTH);
+		File f =  new File(url.getPath());
+		try {
+			image = ImageIO.read(f);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//Paint cell colors
 		for (int x = 0; x < TOTAL_COLUMNS; x++) {
-			for (int y = 0; y < TOTAL_ROWS; y++) {
+			for (int y = 0; y < TOTAL_ROWS-1; y++) {
 				if ((x == 0) || (y != TOTAL_ROWS - 1)) {
+					
 					Color c = colorArray[x][y];
-					g.setColor(c);
-					g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
-				}
+					
+						//g.drawImage(image,x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1,1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, null) ;
+					if(c.equals(Color.BLACK)) {
+						g.drawImage(image,x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1,1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, null) ;
+					}else {
+						g.setColor(c);
+						g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);	
+					}
+					}
 			}
 		}
 	}
@@ -86,22 +107,22 @@ public class MyPanel extends JPanel {
 	// Verify that the coordinates in the parameters are valid.
 	// Also verifies if there are any mines around the x,y coordinate
 	public void revealAdjacent(int x, int y, GameSetup gameOptions){
-		if((x<0) || (y<0) || (x>=9) || (y>=9)){return;}
-		if(gameOptions.hasSurroundingMine(x, y)) {
-			colorArray[x][y] = Color.GREEN;
+		if((x<0) || (y<0) || (x>9) || (y>9)){	
 			return;
+		}
+		else if(colorArray[x][y].equals(Color.GREEN) || colorArray[x][y].equals(Color.GRAY)) {
+			return;
+		}
+		else if(gameOptions.hasSurroundingMine(x, y)) {
+			colorArray[x][y] = Color.GREEN;
 		}
 		else {
 				colorArray[x][y] = Color.GRAY;
-				revealAdjacent(x, y-1, gameOptions);
 				revealAdjacent(x-1, y, gameOptions);
-				revealAdjacent(x, y+1, gameOptions);
+				revealAdjacent(x, y-1, gameOptions);
 				revealAdjacent(x+1, y, gameOptions);
+				revealAdjacent(x, y+1, gameOptions);
 		}
-		
-		
-		System.out.println("Test");
-
 	}
 	
 
@@ -111,6 +132,7 @@ public class MyPanel extends JPanel {
 		Insets myInsets = getInsets();
 		int x1 = myInsets.left;
 		int y1 = myInsets.top;
+		System.out.println("Insets: x:"+x1 +" y:"+y1);
 		x = x - x1 - GRID_X;
 		y = y - y1 - GRID_Y;
 		if (x < 0) {   //To the left of the grid

@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 public class MyMouseAdapter extends MouseAdapter {
 	private Random generator = new Random();
-	private GameSetup gameOptions = new GameSetup(8, 9, 9);
+	private GameSetup gameOptions = new GameSetup(12, 10, 10);
 	public void mousePressed(MouseEvent e) {
 		switch (e.getButton()) {
 			case 1:		//Left mouse button
@@ -80,9 +80,10 @@ public class MyMouseAdapter extends MouseAdapter {
 							//Do nothing
 						} else {
 							//Released the mouse button on the same cell where it was pressed
-							if ((gridX == 0) || (gridY == 0)) {
-								//On the left column and on the top row... do nothing
-							} else {
+//							if ((gridX == 0) || (gridY == 0)) {
+//								//On the left column and on the top row... do nothing
+//							} else
+							//{
 								//On the grid other than on the left column and on the top row:
 								if(gameOptions.youLose(myPanel.mouseDownGridX, myPanel.mouseDownGridY)) {
 									gameOptions.revealAll(myPanel.colorArray);
@@ -92,7 +93,7 @@ public class MyMouseAdapter extends MouseAdapter {
 								}
 //								myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = newColor;
 								myPanel.repaint();
-							}
+							//}
 						}
 					}
 				}

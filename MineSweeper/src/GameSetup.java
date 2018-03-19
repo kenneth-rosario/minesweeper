@@ -5,6 +5,7 @@ import java.util.Random;
 public class GameSetup {
 	private int totalMines; //ReadOnly inside class 
 	private int[][] minesLocations; //ReadOnly inside class
+	private boolean youLost = false;
 	// private int numRows; for future addition of difficulty increment
 	// private int numColumns; for future addition of difficulty increment
 	
@@ -14,12 +15,15 @@ public class GameSetup {
 		}
 		this.totalMines = totalMines;
 		generateMinesLocation();
+		printMines();
 	}
+	
 	
 	public boolean youLose(int positionX, int positionY) {
 		//returns true if position you entered exists in minesLocation array 
 		int[] orderedPair = {positionX, positionY};
 		if(verifyIfExists(this.minesLocations, orderedPair)) {
+			this.youLost = true;
 			return true;
 		}
 		return false;
@@ -46,8 +50,9 @@ public class GameSetup {
 		Random generator = new Random();
 		while(counter < totalMines) {
 			//Setup Random Number generator to create random numbers for x and another for y 
-			int coordinateX = generator.nextInt(8) + 1; // Since 0 and 10 cannot be accessed we add one
-			int coordinateY = generator.nextInt(8) + 1;
+			int coordinateX = generator.nextInt(9) ; 
+			int coordinateY = generator.nextInt(10) ;
+			
 			int[] orderedPair = {coordinateX, coordinateY};
 			//Check if ordered pair already exists
 				if(!verifyIfExists(locations, orderedPair)) {
