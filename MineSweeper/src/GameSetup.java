@@ -9,6 +9,7 @@ public class GameSetup {
 	// private int numRows; for future addition of difficulty increment
 	// private int numColumns; for future addition of difficulty increment
 	
+	
 	public GameSetup(int totalMines, int numRows, int numColumns) {
 		if(numRows*numColumns == totalMines) {
 			throw new RuntimeException("You cannot win if all cells have mines");
@@ -17,6 +18,7 @@ public class GameSetup {
 		generateMinesLocation();
 		printMines();
 	}
+	
 	
 	
 	public boolean youLose(int positionX, int positionY) {

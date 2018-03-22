@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Insets;
@@ -23,6 +24,7 @@ public class MyPanel extends JPanel {
 	public int mouseDownGridX = 0;
 	public int mouseDownGridY = 0;
 	public Color[][] colorArray = new Color[TOTAL_COLUMNS][TOTAL_ROWS];
+	public Color[] severityArray = {Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.YELLOW, Color.decode("#8f42f4")};
 	public MyPanel() {   //This is the constructor... this code runs first to initialize
 		if (INNER_CELL_SIZE + (new Random()).nextInt(1) < 1) {	//Use of "random" to prevent unwanted Eclipse warning
 			throw new RuntimeException("INNER_CELL_SIZE must be positive!");
@@ -45,6 +47,17 @@ public class MyPanel extends JPanel {
 			}
 		}
 	}
+	
+	private int findIndexOf(Color x) {
+		for(int i=0; i < severityArray.length; i++) {
+			if(severityArray[i].equals(x)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
@@ -72,7 +85,6 @@ public class MyPanel extends JPanel {
 		}
 
 		//Draw an additional cell at the bottom left
-		g.drawRect(x1 + GRID_X, y1 + GRID_Y + ((INNER_CELL_SIZE + 1) * (TOTAL_ROWS - 1)), INNER_CELL_SIZE + 1, INNER_CELL_SIZE + 1);
 		URL url = getClass().getResource("mine-picture.jpg");
 		BufferedImage image = new BufferedImage(INNER_CELL_SIZE, INNER_CELL_SIZE , BufferedImage.SCALE_SMOOTH);
 		File f =  new File(url.getPath());
@@ -89,18 +101,28 @@ public class MyPanel extends JPanel {
 					
 					Color c = colorArray[x][y];
 					
+					g.setColor(c);
+					g.setFont(new Font("Serif", Font.PLAIN, 50));
 						//g.drawImage(image,x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1,1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, null) ;
-					if(c.equals(Color.BLACK)) {
-						g.drawImage(image,x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1,1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, null) ;
-					}else {
-						g.setColor(c);
-						g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);	
-					}
+						if(c.equals(Color.BLACK)) {
+							g.drawImage(image,x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1,1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, null) ;
+						}
+						else if(!(c.equals(Color.BLACK)||c.equals(Color.GRAY) || c.equals(Color.WHITE))) {
+							g.setColor(c);
+							g.setFont(new Font("Serif", Font.PLAIN, 50));
+							g.drawString(""+(findIndexOf(colorArray[x][y])+1) ,x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 20 , 1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 50);
+						}
+						else {
+							g.setColor(c);
+							g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);	
+						}
+						
 					}
 			}
 		}
 	}
 
+	
 
 	// This method helps to find the adjacent boxes that don't have a mine.
 	// It is partially implemented since the verify hasn't been discussed in class
@@ -110,11 +132,10 @@ public class MyPanel extends JPanel {
 		if((x<0) || (y<0) || (x>9) || (y>9)){	
 			return;
 		}
-		else if(colorArray[x][y].equals(Color.GREEN) || colorArray[x][y].equals(Color.GRAY)) {
-			return;
-		}
+		
 		else if(gameOptions.hasSurroundingMine(x, y)) {
-			colorArray[x][y] = Color.GREEN;
+			int numMines = gameOptions.getMinesAroundLocation(x, y);
+			colorArray[x][y] = severityArray[numMines -1];
 		}
 		else if(colorArray[x][y].equals(Color.GRAY)) {
 			return;
