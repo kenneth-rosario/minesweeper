@@ -129,7 +129,13 @@ public class MyMouseAdapter extends MouseAdapter {
 										
 										
 									});
-//									JOptionPane.show//fixx this!!!!!
+									
+									Object[] options = {"Restart","Quit"};
+									pane.showOptionDialog(null, null, null, 0, 0, null, options, null);
+									System.exit(0);
+								
+									
+									
 								}
 								else {
 									myPanel.revealAdjacent(myPanel.mouseDownGridX, myPanel.mouseDownGridY, gameOptions);
