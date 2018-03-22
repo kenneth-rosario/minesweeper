@@ -1,13 +1,19 @@
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class MyMouseAdapter extends MouseAdapter {
+	private JOptionPane pane = new JOptionPane();
 	private Random generator = new Random();
 	private GameSetup gameOptions = new GameSetup(12, 10, 10);
 	public void mousePressed(MouseEvent e) {
@@ -39,6 +45,28 @@ public class MyMouseAdapter extends MouseAdapter {
 				break;
 			case 3:		//Right mouse button
 				//Do nothing
+				Component c1 = e.getComponent();
+				while (!(c1 instanceof JFrame)) {
+					c1 = c1.getParent();
+					if (c1 == null) {
+						return;
+					}
+				}
+				// Gets Position of Where user clicks
+				JFrame myFrame1 = (JFrame) c1;
+				MyPanel myPanel1 = (MyPanel) myFrame1.getContentPane().getComponent(0);
+				Insets myInsets1 = myFrame1.getInsets();
+				int x2 = myInsets1.left;
+				int y2 = myInsets1.top;
+				e.translatePoint(-x2, -y2);
+				int x3 = e.getX();
+				int y3 = e.getY();
+				myPanel1.x = x3;
+				myPanel1.y = y3;
+				// Records the position and saves it in a variable;
+				myPanel1.mouseDownGridX = myPanel1.getGridX(x3, y3);
+				myPanel1.mouseDownGridY = myPanel1.getGridY(x3, y3);
+				myPanel1.repaint();
 				break;
 			default:    //Some other button (2 = Middle mouse button, etc.)
 				//Do nothing
@@ -87,6 +115,21 @@ public class MyMouseAdapter extends MouseAdapter {
 								//On the grid other than on the left column and on the top row:
 								if(gameOptions.youLose(myPanel.mouseDownGridX, myPanel.mouseDownGridY)) {
 									gameOptions.revealAll(myPanel.colorArray);
+									myPanel.repaint();
+									//adds the JOption pane to the game.
+									final JButton restart = new JButton("Restart");
+									final JButton exit = new JButton("Quit Game");
+									restart.addActionListener(new ActionListener() {
+
+										@Override
+										public void actionPerformed(ActionEvent e) {
+											System.exit(0);
+											
+										}
+										
+										
+									});
+//									JOptionPane.show//fixx this!!!!!
 								}
 								else {
 									myPanel.revealAdjacent(myPanel.mouseDownGridX, myPanel.mouseDownGridY, gameOptions);
@@ -101,6 +144,10 @@ public class MyMouseAdapter extends MouseAdapter {
 				break;
 			case 3:		//Right mouse button
 				//Do nothing
+				Component c1 = e.getComponent();
+				JFrame myFrameR = (JFrame)c1;
+				MyPanel myPanelR = (MyPanel) myFrameR.getContentPane().getComponent(0);
+				myPanelR.addFlag(myPanelR.mouseDownGridX, myPanelR.mouseDownGridY);
 				break;
 			default:    //Some other button (2 = Middle mouse button, etc.)
 				//Do nothing

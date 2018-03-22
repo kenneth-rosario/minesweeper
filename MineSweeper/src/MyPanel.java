@@ -14,9 +14,9 @@ import javax.swing.JPanel;
 
 public class MyPanel extends JPanel {
 	private static final long serialVersionUID = 3426940946811133635L;
-    private static final int GRID_X = 100;
-	private static final int GRID_Y = 100;
-	private static final int INNER_CELL_SIZE = 70;
+    private static final int GRID_X = 40;
+	private static final int GRID_Y = 40;
+	private static final int INNER_CELL_SIZE = 55;
 	private static final int TOTAL_COLUMNS = 10;
 	private static final int TOTAL_ROWS = 11;   //Last row has only one cell
 	public int x = -1;
@@ -107,10 +107,10 @@ public class MyPanel extends JPanel {
 						if(c.equals(Color.BLACK)) {
 							g.drawImage(image,x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1,1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, null) ;
 						}
-						else if(!(c.equals(Color.BLACK)||c.equals(Color.GRAY) || c.equals(Color.WHITE))) {
+						else if(!(c.equals(Color.BLACK)||c.equals(Color.GRAY) || c.equals(Color.WHITE)|| c.equals(Color.RED))) {
 							g.setColor(c);
-							g.setFont(new Font("Serif", Font.PLAIN, 50));
-							g.drawString(""+(findIndexOf(colorArray[x][y])+1) ,x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 20 , 1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 50);
+							g.setFont(new Font("Comic-Sans", Font.PLAIN, 50));
+							g.drawString(""+(findIndexOf(colorArray[x][y])+1) ,x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 13 , 1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 45);
 						}
 						else {
 							g.setColor(c);
@@ -146,6 +146,10 @@ public class MyPanel extends JPanel {
 				revealAdjacent(x, y-1, gameOptions);
 				revealAdjacent(x+1, y, gameOptions);
 				revealAdjacent(x, y+1, gameOptions);
+				revealAdjacent(x-1,y-1, gameOptions);
+				revealAdjacent(x+1, y+1, gameOptions);
+				revealAdjacent(x+1, y-1, gameOptions);
+				revealAdjacent(x-1, y+1, gameOptions);
 		}
 	}
 	
@@ -202,5 +206,16 @@ public class MyPanel extends JPanel {
 			return -1;
 		}
 		return y;
+	}
+	
+	public void addFlag(int x, int y) {
+		if(colorArray[x][y].equals(Color.WHITE)) {
+			colorArray[x][y] = Color.RED;
+		}else if(colorArray[x][y].equals(Color.RED)) {
+			colorArray[x][y] = Color.WHITE;
+		}else {
+			// do nothing
+		}
+		repaint();
 	}
 }
