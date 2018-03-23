@@ -96,6 +96,17 @@ public class MyPanel extends JPanel {
 			System.out.println("Error Loading");
 		}
 		
+		URL unopenedUrl = getClass().getResource("unopened.png"); // flag images
+		BufferedImage blockImage = new BufferedImage(INNER_CELL_SIZE, INNER_CELL_SIZE , BufferedImage.SCALE_SMOOTH);
+		File blockFile =  new File(unopenedUrl.getPath());
+		boolean loadedBlock = false;
+		try {
+			blockImage = ImageIO.read(blockFile);
+			loadedBlock = true;
+		} catch (IOException e) {
+			System.out.println("Error Loading");
+		}
+		
 		//Paint cell colors
 		for (int x = 0; x < TOTAL_COLUMNS; x++) {
 			for (int y = 0; y < TOTAL_ROWS-1; y++) {
@@ -107,6 +118,12 @@ public class MyPanel extends JPanel {
 							if(loaded) { // check if image whas loaded 
 								g.drawImage(image,x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1,1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, null) ;
 							}else { // if not draw normal black cell
+								g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
+							}
+						}else if(c.equals(Color.WHITE)) {
+							if(loadedBlock) {
+								g.drawImage(blockImage,x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1,1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, null) ;
+							}else {
 								g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
 							}
 						}
