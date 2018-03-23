@@ -44,7 +44,7 @@ public class MyMouseAdapter extends MouseAdapter {
 				myPanel.repaint();
 				break;
 			case 3:		//Right mouse button
-				//Do nothing
+				//Do the same for as the Left Click
 				Component c1 = e.getComponent();
 				while (!(c1 instanceof JFrame)) {
 					c1 = c1.getParent();
@@ -107,49 +107,48 @@ public class MyMouseAdapter extends MouseAdapter {
 							//Released the mouse button on a different cell where it was pressed
 							//Do nothing
 						} else {
-							//Released the mouse button on the same cell where it was pressed
-//							if ((gridX == 0) || (gridY == 0)) {
-//								//On the left column and on the top row... do nothing
-//							} else
-							//{
-								//On the grid other than on the left column and on the top row:
+								// if you lose
 								if(gameOptions.youLose(myPanel.mouseDownGridX, myPanel.mouseDownGridY)) {
+									// show all mines
 									gameOptions.revealAll(myPanel.colorArray);
 									myPanel.repaint();
 									//adds the JOption pane to the game.
-									final JButton restart = new JButton("Restart");
-									final JButton exit = new JButton("Quit Game");
-									restart.addActionListener(new ActionListener() {
-
-										@Override
-										public void actionPerformed(ActionEvent e) {
-											System.exit(0);
-											
-										}
-										
-										
-									});
-									
-									Object[] options = {"Restart","Quit"};
-									pane.showOptionDialog(null, null, null, 0, 0, null, options, null);
-									System.exit(0);
-								
-									
-									
+									Object [] options = {"Restart", "Quit"};
+									int chosen = pane.showOptionDialog(null, null, "You Lost", 0, 0,null, options, null);
+									// if Option Restart is clicked restart, otherwise exit
+									if(chosen == 0) {
+										myPanel.clearGrid();
+										gameOptions.restartGame();
+										myPanel.repaint();
+									}else {
+										System.exit(0);
+									}	
 								}
 								else {
 									myPanel.revealAdjacent(myPanel.mouseDownGridX, myPanel.mouseDownGridY, gameOptions);
 								}
 //								myPanel.colorArray[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = newColor;
 								myPanel.repaint();
-							//}
+								//check if you win
+								if(gameOptions.youWin(myPanel.colorArray)) {
+									Object [] options = {"Play Again", "Quit"};
+									int chosen = pane.showOptionDialog(null, null, "You Win!!", 0, 0,null, options, null);
+									if (chosen == 0) { // If user wnts to play again
+										myPanel.clearGrid();
+										gameOptions.restartGame();
+										myPanel.repaint();
+									}else {
+										System.exit(0);
+									}
+								}
+								
 						}
 					}
 				}
 				myPanel.repaint();
 				break;
 			case 3:		//Right mouse button
-				//Do nothing
+				//Check if flag exists if it does not then add a flag if it does then dont;
 				Component c1 = e.getComponent();
 				JFrame myFrameR = (JFrame)c1;
 				MyPanel myPanelR = (MyPanel) myFrameR.getContentPane().getComponent(0);

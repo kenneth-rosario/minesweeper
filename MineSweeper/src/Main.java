@@ -3,6 +3,7 @@ import javax.swing.JOptionPane;
 
 public class Main {
 	public static void main(String[] args) {
+		
 		JFrame myFrame = new JFrame("Black Panther: Minesweeper Mission");
 		//Game's name changed to: "Black Panther: Minesweeper Mission.
 		myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -17,19 +18,8 @@ public class Main {
 		myFrame.addMouseListener(myMouseAdapter);
 
 		myFrame.setVisible(true);
-		
-		String gameover = "";
-		
-		
-		
-//		JOptionPane.showMessageDialog(null, gameover);
-//		System.exit(0);
-		
-	}
-	
-	
-	
-		
+				
+	}		
 	
 }
 	

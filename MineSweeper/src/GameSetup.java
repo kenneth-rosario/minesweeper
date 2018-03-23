@@ -5,36 +5,46 @@ import java.util.Random;
 public class GameSetup {
 	private int totalMines; //ReadOnly inside class 
 	private int[][] minesLocations; //ReadOnly inside class
-	private boolean youLost = false;
-	// private int numRows; for future addition of difficulty increment
-	// private int numColumns; for future addition of difficulty increment
-	
-	public boolean getLoseValue() {
-		return youLost;
-	}
+	private int numRows;
+	private int numColumns;
 	
 	public GameSetup(int totalMines, int numRows, int numColumns) {
-		if(numRows*numColumns == totalMines) {
+		if(numRows*numColumns <= totalMines) {
 			throw new RuntimeException("You cannot win if all cells have mines");
 		}
 		this.totalMines = totalMines;
+		this.numRows = numRows; this.numColumns = numColumns;
 		generateMinesLocation();
-		printMines();
+		//printMines(); unComment for debugging and testing
 	}
 	
+	public void restartGame() { //Just a bit of syntactic sugar and keeps generateMines private
+		generateMinesLocation();
+	}
+	
+	public boolean youWin(Color[][] colorArray) {
+		
+		//verifies if you win given minesweeper board as parameter
+		for(int x = 0; x< colorArray.length; x++) {
+			for(int y = 0; y < colorArray.length; y++) {
+				if((colorArray[x][y]==Color.WHITE||colorArray[x][y] == Color.RED)  &&  
+						!verifyIfExists(minesLocations,new int[] {x,y}) ) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+		
+	}
 	
 	public boolean youLose(int positionX, int positionY) {
 		//returns true if position you entered exists in minesLocation array 
 		int[] orderedPair = {positionX, positionY};
-		if(verifyIfExists(this.minesLocations, orderedPair)) {
-			this.youLost = true;
-			return true;
-		}
-		return false;
+		return verifyIfExists(this.minesLocations, orderedPair);
 	}
 	
 	private boolean verifyIfExists(int[][]bigArray, int[]orderedPair) {
-		
 		// Verify if ordered pair already exist in MinesLocatio
 		for(int i = 0; i < bigArray.length; i++) {
 			//System.out.println("Comparing: ("+bigArray[i][0]+", "+bigArray[i][1]+ ")"+ " with: ("+orderedPair[0]+", "+orderedPair[1]+")");
@@ -43,7 +53,6 @@ public class GameSetup {
 			}
 		}
 		return false;
-		
 	}
 	
 	private void generateMinesLocation() {
@@ -54,8 +63,8 @@ public class GameSetup {
 		Random generator = new Random();
 		while(counter < totalMines) {
 			//Setup Random Number generator to create random numbers for x and another for y 
-			int coordinateX = generator.nextInt(9) ; 
-			int coordinateY = generator.nextInt(10) ;
+			int coordinateX = generator.nextInt(this.numRows) ; 
+			int coordinateY = generator.nextInt(this.numColumns) ;
 			
 			int[] orderedPair = {coordinateX, coordinateY};
 			//Check if ordered pair already exists
@@ -106,6 +115,7 @@ public class GameSetup {
 	}
 	
 	public void revealAll(Color [][]colorArray) {
+		//reveal all mines given a colorArray
 		for(int i =0; i< minesLocations.length; i++) {
 			colorArray[minesLocations[i][0]][minesLocations[i][1]] = Color.BLACK;
 		}
@@ -113,6 +123,7 @@ public class GameSetup {
 	
 	
 	public void printMines() {
+		//print mines location mainly for debuging and testing purposes
 		System.out.println("Mines Locations Are:");
 		for(int i= 0; i < this.minesLocations.length; i++) {
 			System.out.println("("+this.minesLocations[i][0]+", "+this.minesLocations[i][1]+ ")");
