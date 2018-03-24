@@ -1,20 +1,10 @@
 import javax.swing.JFrame;
 
-import javazoom.jl.player.Player;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
-import javazoom.jl.decoder.JavaLayerException;
-
-import java.io.FileNotFoundException;
-
-import javazoom.jl.player.advanced.*;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Player player = null;
-		MusicPlayer repeatplayer;
 		JFrame myFrame = new JFrame("Black Panther: Minesweeper Mission");
 		//Game's name changed to: "Black Panther: Minesweeper Mission.
 		myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -30,12 +20,6 @@ public class Main {
 
 		myFrame.setVisible(true);
 		
-		//installs music track to game and runs it using the MusicPlayer class.
-		
-		
-		repeatplayer = new MusicPlayer("vince.mp3",true); 
-		repeatplayer.run();
-		System.out.println("Playing Song...");
 		
 		
 		
