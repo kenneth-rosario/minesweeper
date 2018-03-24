@@ -37,6 +37,7 @@ public class MyMouseAdapter extends MouseAdapter {
 				int y = e.getY();
 				myPanel.x = x;
 				myPanel.y = y;
+				
 				// Records the position and saves it in a variable;
 				myPanel.mouseDownGridX = myPanel.getGridX(x, y);
 				myPanel.mouseDownGridY = myPanel.getGridY(x, y);
@@ -114,7 +115,8 @@ public class MyMouseAdapter extends MouseAdapter {
 									myPanel.repaint();
 									//adds the JOption pane to the game.
 									Object [] options = {"Restart", "Quit"};
-									int chosen = pane.showOptionDialog(null, null, "You Lost", 0, 0,null, options, null);
+									String badmessage = "You failed to save Wakanda";
+									int chosen = pane.showOptionDialog(null, badmessage, "Mission Failed", 0, 0,null, options, null);
 									// if Option Restart is clicked restart, otherwise exit
 									if(chosen == 0) {
 										myPanel.clearGrid();
@@ -132,7 +134,8 @@ public class MyMouseAdapter extends MouseAdapter {
 								//check if you win
 								if(gameOptions.youWin(myPanel.colorArray)) {
 									Object [] options = {"Play Again", "Quit"};
-									int chosen = pane.showOptionDialog(null, null, "You Win!!", 0, 0,null, options, null);
+									String goodmessage = "You saved Wakanda!";
+									int chosen = pane.showOptionDialog(null, goodmessage, "Mission Completed", 0, 0,null, options, null);
 									if (chosen == 0) { // If user wnts to play again
 										myPanel.clearGrid();
 										gameOptions.restartGame();
